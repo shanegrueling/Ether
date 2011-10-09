@@ -71,14 +71,14 @@ __release.js:__
     //Do some things and create variable
     //Do more with variable
 
-To explicite delete only one line like it would make sense in the above example you can use <code>Eather.debug.block.line;Console.log("Content of variable:"+variable);</code>. This will delete just this single line after ether.exe but won't do anything in development.
+To explicite delete only one line like it would make sense in the above example you can use <code>Ether.debug.block.line;Console.log("Content of variable:"+variable);</code>. This will delete just this single line after ether.exe but won't do anything in development.
 
 ---
 
 ##More Features
 
-* Profiling in Eather.profiler (Thanks to [victorporof](https://github.com/victorporof) for his basis to start from)
-* A log function with channel support in Eather.debug.console
+* Profiling in Ether.profiler (Thanks to [victorporof](https://github.com/victorporof) for his basis to start from)
+* A log function with channel support in Ether.debug.console
 
 ##How do i use this awesome toolset?
 
