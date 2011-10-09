@@ -82,7 +82,7 @@ To explicite delete only one line like it would make sense in the above example 
 
 ##How do i use this awesome toolset?
 
-Nothing easier than this. Just add to your HTML file the line <code><script src="PATH/TO/ether.js" data-main="RELATIVE/PATH/TO/SCRIPT.js"></code> and take care that it is the first `<script>`-Tag in the document.
+Nothing easier than this. Just add to your HTML file the line `<script src="PATH/TO/ether.js" data-main="RELATIVE/PATH/TO/SCRIPT.js">` and take care that it is the first `<script>`-Tag in the document.
 
 After developing you produce the release version with the following command
 
