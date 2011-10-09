@@ -1,3 +1,21 @@
+/*****************************************************************************
+ * Copyright 2011 Shane Grüling (shane.grueling@portalwelten.de)
+ *
+ * This file is part of Ether.
+ *
+ * Ether is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Ether is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Ether.  If not, see <http://www.gnu.org/licenses/>.
+ *****************************************************************************/
 var Ether = {
     debug: {
         assert: function(condition, message)
@@ -174,6 +192,9 @@ var Ether = {
          * To profile every function of an entire object just pass
          * null as method. It will automatically profile every method.
          *
+		 * Based on this article(http://blog.mozilla.com/tilt/2011/08/07/profiling-javascript-functions)
+		 * from Victor Porof( victor.porof@gmail.com ).
+		 *
          * @param {Object} object the object containing the function
          * @param {String} method the name of the function
          * @param {String} name optional, the namespace for the function
