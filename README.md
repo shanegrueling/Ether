@@ -1,21 +1,21 @@
 #Ether
 Ether is an development library and tool for JavaScript.
 ##What does it do?
-Ether should fix two big issues in developing large applications with JavaScript. Includes and the separation between release and debug code.
+Ether fixes two big issues in developing large applications with JavaScript. Includes and the separation between release and debug code.
 
 ---
 
 ###Includes
-JavaScript doesn't have the ability to include others files in runtime naturally. This leads to big files or dynamically load the code while runtime. While the first is good for release its bad for development contrary to the second which is good for development but most of the time bad for release.
+JavaScript isn't capable of including others files in runtime naturally. This leads to big files or has to dynamically load the code during runtime. While the first is good for release its bad for development contrary to the second which is good for development but most of the time bad for release.
 
-Ether comes with the namespace Ether.include under which you can find methods to include your code dynamically, synchronically while developing. At runtime it is like one big file, with a bit performance loose, but while developing you can separate each class.
+Ether contains the namespace Ether.include under which you can find methods to include your code dynamically and in order. At runtime it act like one big file, with a bit performance loose, but you can separate each class.
 
     Ether.include.JavaScript("scripts/awesome-three-d-engine.js");
     Ether.include.JavaScript("scripts/jQuery.js");
     
     $("p.neat").addClass("ohmy").show("slow");
 
-This alone would be nothing worth to use Ether but ether is not alone the JavaScript-File. With ether.exe you can easily create a release file in which every include becomes replaced by the file it should include except the file is already included.
+This alone would be nothing worth to use Ether. But with the bundeled ether.exe you can easily create a release file in which every include becomes replaced by the file it should include. Ether.exe take care that no JavaScript File will be inserted more than once.
 
 ####Example:
 
@@ -47,7 +47,7 @@ In Ether.include are more functions to find that handle different file formats. 
 
 ###Separation  between debug and release code
 
-Everyone knows the little <code>if(debug)</code> that should prevent the code to do some things release. Then why not delete it in release mode?
+Everyone knows the little <code>if(debug)</code> that should prevent the code to do some things during release. Then why not delete it in release mode?
 
 In Ether.debug.block are two handy functions and one nice constant. With <code>Ether.debug.block.start()</code> you can start a debug block and with <code>Ether.debug.block.end()</code> end one. While developing this will not have any effect but after run through the ether.exe everything including the line where the block started until the end call will be deleted and can't be found in the outputted file.
 
@@ -80,7 +80,7 @@ To explicite delete only one line like it would make sense in the above example 
 * Profiling in Ether.profiler (Thanks to [victorporof](https://github.com/victorporof) for his basis to start from)
 * A log function with channel support in Ether.debug.console
 
-##How do i use this awesome toolset?
+##How do I use this awesome toolset?
 
 Nothing easier than this. Just add to your HTML file the line `<script src="PATH/TO/ether.js" data-main="RELATIVE/PATH/TO/SCRIPT.js">` and take care that it is the first `<script>`-Tag in the document.
 

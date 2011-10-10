@@ -1,0 +1,1 @@
+alert('And this file(debug.js) won\'t be included in release');

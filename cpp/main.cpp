@@ -44,7 +44,7 @@ public:
 
 std::string EtherFile::parse()
 {
-	boost::regex e(".*(Ether\\.(.+);)");
+	boost::regex e(".*(?:Ether\\.([^;]+);).*");
 	
 	std::ifstream file;
 
@@ -69,7 +69,7 @@ std::string EtherFile::parse()
 			//Check if Compiler instruction is in this line
 			if(boost::regex_match(line, match, e))
 			{
-				line.assign(parseEtherLine(match[2], line));
+				line.assign(parseEtherLine(match[1], line));
 			}
 			if(!file.eof() && line.length() > 0)
 			{
@@ -109,25 +109,30 @@ std::string EtherFile::parseEtherLine(const std::string& oldMatch, std::string& 
 
 std::string EtherFile::parseIncludeLine(const std::string& oldMatch, std::string& line)
 {
-	boost::regex JavaScript("JavaScript\\([\"'](.+)[\"']\\)");
-	boost::regex JSON("JSON\\([\"'](.+)[\"']\\)");
-	boost::regex HTML("HTML\\([\"'](.+)[\"']\\)");
+	boost::regex JavaScript("(JavaScript\\([\"'](.+)[\"']\\)).*");
+	boost::regex JSON("(JSON\\([\"'](.+)[\"']\\)).*");
+	boost::regex HTML("(HTML\\([\"'](.+)[\"']\\)).*");
 
 	boost::smatch match;
 
 	if(boost::regex_match(oldMatch, match, JavaScript))
 	{
-		if(std::find(vector.begin(), vector.end(), match[1])==vector.end())
+		if(std::find(vector.begin(), vector.end(), match[2])==vector.end())
 		{
-			vector.push_back(match[1]);
-			EtherFile file(path, match[1]);
+			vector.push_back(match[2]);
+			EtherFile file(path, match[2]);
 			return file.parse();
 		}
 	} else if(boost::regex_match(oldMatch, match, JSON)) {
 		std::string ret("Ether.include.");
-		ret.append(match[0]);
+		ret.append(match[1]);
 
-		return line.replace(line.find(ret), ret.length(), getFile(path, match[1]));
+		return line.replace(line.find(ret), ret.length(), getFile(path, match[2]));
+	} else if(boost::regex_match(oldMatch, match, HTML)) {
+		std::string ret("Ether.include.");
+		ret.append(match[1]);
+
+		return line.replace(line.find(ret), ret.length(), "\""+getFile(path, match[2])+"\"");
 	}
 
 	return std::string("");
