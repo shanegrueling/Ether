@@ -32,6 +32,7 @@ private:
 	bool debugBlockOn;
 	const std::string path;
 	const std::string name;
+	std::string returnFile;
 
 	std::string parseEtherLine(const std::string& oldMatch, std::string& line); 
 	std::string parseIncludeLine(const std::string& oldMatch, std::string& line);
@@ -54,8 +55,6 @@ std::string EtherFile::parse()
 	pathFile.append(this->name);
 	++numberOfFiles;
 	std::cout << "Parsing file " << pathFile << std::endl;
-
-	std::string returnFile;
 
 	boost::smatch match;
 
@@ -121,7 +120,8 @@ std::string EtherFile::parseIncludeLine(const std::string& oldMatch, std::string
 		{
 			vector.push_back(match[2]);
 			EtherFile file(path, match[2]);
-			return file.parse();
+
+			returnFile.insert(0, file.parse()+"\n");
 		}
 	} else if(boost::regex_match(oldMatch, match, JSON)) {
 		std::string ret("Ether.include.");
@@ -140,8 +140,8 @@ std::string EtherFile::parseIncludeLine(const std::string& oldMatch, std::string
 
 std::string EtherFile::parseDebugLine(const std::string& oldMatch, std::string& line)
 {
-	boost::regex blockStart("block.start\\(\\)");
-	boost::regex blockEnd("block.end\\(\\)");
+	boost::regex blockStart("block.start\\([\"']?(.*)[\"']?\\)");
+	boost::regex blockEnd("block.end\\([\"']?(.*)[\"']?\\)");
 
 	boost::smatch match;
 
