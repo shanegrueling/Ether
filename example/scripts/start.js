@@ -7,10 +7,11 @@ Ether.include.JavaScript("scripts/debug.js");
 Ether.debug.block.end();
 
 alert(Ether.include.HTML('assets/coolmsg.html'));
-
+var include = include || "The variable include isn't available currently.";
 alert(include);
 var a = function ()
 {
     Ether.include.JavaScript('scripts/include.js');
-}();
+};
+a();
 alert(include);
