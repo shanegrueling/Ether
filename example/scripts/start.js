@@ -1,3 +1,4 @@
+Ether.include.block.line;Ether.include.JavaScript("../js/profiler.js");
 Ether.include.JavaScript("scripts/welcome.js");
 alert(welcome);
 
