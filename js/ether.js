@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright 2011 Shane Grüling (shane.grueling@portalwelten.de)
+ * Copyright 2011 Shane Grï¿½ling (shane.grueling@portalwelten.de)
  *
  * This file is part of Ether.
  *
@@ -171,14 +171,15 @@ var Ether = {
                 if(Ether.profiler.currentBlock.length>=2)
                 {
                     var index = Ether.profiler.currentBlock.length-2;
-                    //Calculate the times and calls
-                    block.parents[Ether.profiler.currentBlock[index]] = (block.parents[Ether.profiler.currentBlock[index]]||0)+1;
+
                     var old = Ether.profiler.blocks[Ether.profiler.currentBlock[index]];
 
                     ++old.childs[block.name].calls;
                     old.childs[block.name].averageTime = (currentDuration+old.childs[block.name].averageTime)*0.5;
                     old.childs[block.name].longestTime = Math.max(currentDuration, old.childs[block.name].longestTime);
                     old.childs[block.name].totalTime+= currentDuration;
+
+                    block.parents[Ether.profiler.currentBlock[index]] = old.childs[block.name];
                 }
 
                 Ether.profiler.currentBlock.pop();

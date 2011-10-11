@@ -25,7 +25,7 @@
 
 std::vector<std::string> vector;
 int numberOfFiles = 0;
-std::string getFile(const std::string& path, const std::string& file);
+std::string getFile(const std::string& path, const std::string& file, bool escape);
 
 class EtherFile {
 private:
@@ -45,7 +45,7 @@ public:
 
 std::string EtherFile::parse()
 {
-	boost::regex e(".*(?:Ether\\.([^;]+);).*");
+	boost::regex e("(?:^(?:Ether\\.([^;]+);)+?.*)|.*(?:Ether\\.([^;]+);)+?.*");
 	
 	std::ifstream file;
 
@@ -68,7 +68,7 @@ std::string EtherFile::parse()
 			//Check if Compiler instruction is in this line
 			if(boost::regex_match(line, match, e))
 			{
-				line.assign(parseEtherLine(match[1], line));
+				line.assign(parseEtherLine(match[1].matched?match[1]:match[2], line));
 			}
 			if(!file.eof() && line.length() > 0)
 			{
@@ -95,12 +95,11 @@ std::string EtherFile::parseEtherLine(const std::string& oldMatch, std::string& 
 
 	boost::smatch match;
 
-	if(!debugBlockOn && boost::regex_match(oldMatch, match, include))
-	{
-		return parseIncludeLine(match[1], line);
-	} else if(boost::regex_match(oldMatch, match, debug)) {
+	if(boost::regex_match(oldMatch, match, debug)) {
 		return parseDebugLine(match[1], line);
-	} 
+	} else if(!debugBlockOn && boost::regex_match(oldMatch, match, include)) {
+		return parseIncludeLine(match[1], line);
+	}
 
 	return std::string("");
 
@@ -127,12 +126,12 @@ std::string EtherFile::parseIncludeLine(const std::string& oldMatch, std::string
 		std::string ret("Ether.include.");
 		ret.append(match[1]);
 
-		return line.replace(line.find(ret), ret.length(), getFile(path, match[2]));
+		return line.replace(line.find(ret), ret.length(), getFile(path, match[2], false));
 	} else if(boost::regex_match(oldMatch, match, HTML)) {
 		std::string ret("Ether.include.");
 		ret.append(match[1]);
 
-		return line.replace(line.find(ret), ret.length(), "\""+getFile(path, match[2])+"\"");
+		return line.replace(line.find(ret), ret.length(), "\""+getFile(path, match[2], true)+"\"");
 	}
 
 	return std::string("");
@@ -177,9 +176,10 @@ int main( int argc, char* argv[] )
 	return 1;
 }
 
-std::string getFile(const std::string& path, const std::string& name)
+std::string getFile(const std::string& path, const std::string& name, bool escape)
 {
 	std::ifstream file;
+	boost::regex include("\"");
 
 	std::string pathFile;
 	pathFile.append(path);
@@ -197,7 +197,26 @@ std::string getFile(const std::string& path, const std::string& name)
 		while(!file.eof())
 		{
 			std::getline(file, line);
-			returnFile.append(line);
+			if(escape)
+			{
+				for(int i=0;i<line.length();++i)
+				{
+					switch(line[i])
+					{
+						case '"':
+						case '\\':
+							returnFile.append("\\");
+							break;
+					}
+					returnFile.push_back(line[i]);
+				}
+			} else {
+				returnFile.append(line);
+			}
+			if(!file.eof() && line.length()>0)
+			{
+				returnFile.append("\\\n");
+			}
 		}
 		file.close();
 	} else {
