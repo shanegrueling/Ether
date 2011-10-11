@@ -329,4 +329,4 @@ var Ether = {
 };
 Ether.profiler.profile(Ether.include, null, "Ether.include");
 Ether.profiler.profile(Ether.console, null, "Ether.console");
-Ether.include.JavaScript(document.getElementsByTagName('script')[0].dataset.main);
+Ether.include.JavaScript(document.getElementsByTagName('script')[0].getAttribute('data-main'));
