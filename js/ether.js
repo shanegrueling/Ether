@@ -18,8 +18,7 @@
  *****************************************************************************/
 var Ether = {
     debug: {
-        assert: function(condition, message)
-        {
+        assert: function(condition, message) {
             if(condition)
             {
                 throw new Ether.error(2, message)
@@ -35,23 +34,20 @@ var Ether = {
              * Everything between this and a Ether.debug.block.end()
              * will be deleted after running through ether.exe
              */
-            start: function()
-            {
+            start: function() {
 
             },
             /**
              * Ends an debug block. Everything after this line
              * will be outputted like normal.
              */
-            end: function()
-            {
+            end: function() {
 
             }
         },
         console: {
             observer: [],
-            addObserver: function(name, observer, channels)
-            {
+            addObserver: function(name, observer, channels) {
                 if(!channels || !name || !observer) throw new Ether.error(1, "Don't add observers without channel.");
 
                 this.observer[this.observer.length] = {
@@ -60,8 +56,7 @@ var Ether = {
                     channels: channels instanceof Array?channels:[channels]
                 };
             },
-            log: function(channel, text)
-            {
+            log: function(channel, text) {
                 for(var obs=null,index=0;obs = this.observer[index];++index)
                 {
                     var send=false;
@@ -104,8 +99,7 @@ var Ether = {
              *
              * @param {String} name The name under which the measurement will be saved
              */
-            start: function(name)
-            {
+            start: function(name) {
                 Ether.profiler.currentBlock[Ether.profiler.currentBlock.length] = name;
 
                 if(!Ether.profiler.blocks[name])
@@ -143,16 +137,14 @@ var Ether = {
              * @param {Function} method The function
              * @param {Array} args The arguments for the method
              */
-            work: function(object, method, args)
-            {
+            work: function(object, method, args) {
                 return method.apply(object, args);
             },
             /**
              * Call this function after start to end
              * the measurement.
              */
-            end: function()
-            {
+            end: function() {
                 //Get current block
                 var block = Ether.profiler.blocks[Ether.profiler.currentBlock[Ether.profiler.currentBlock.length-1]];
 
@@ -193,9 +185,9 @@ var Ether = {
          * To profile every function of an entire object just pass
          * null as method. It will automatically profile every method.
          *
-		 * Based on this article(http://blog.mozilla.com/tilt/2011/08/07/profiling-javascript-functions)
-		 * from Victor Porof( victor.porof@gmail.com ).
-		 *
+	 * Based on this article(http://blog.mozilla.com/tilt/2011/08/07/profiling-javascript-functions)
+	 * from Victor Porof( victor.porof@gmail.com ).
+	 *
          * @param {Object} object the object containing the function
          * @param {String} method the name of the function
          * @param {String} name optional, the namespace for the function
@@ -203,8 +195,7 @@ var Ether = {
          * @param {Function} doBlock optional, custom logic for starting the function
          * @param {Function} endBlock optional, custom logic for after the function
          */
-        profile: function(object, method, name, startBlock, doBlock, endBlock)
-        {
+        profile: function(object, method, name, startBlock, doBlock, endBlock) {
             if(!method) {
                 for(var i in object) {
                     // if an object member is a function, automatically profile it
@@ -320,8 +311,7 @@ var Ether = {
      * @param {String} text Errormessage
      * @param {Ether.error} previous  optional, previous error
      */
-    error: function(number, text, previous)
-    {
+    error: function(number, text, previous) {
         this.number = number;
         this.text = text;
         this.previous = previous;
